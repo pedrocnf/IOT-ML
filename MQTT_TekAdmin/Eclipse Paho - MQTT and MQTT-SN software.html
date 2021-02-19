@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html lang="pt-br">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <title>
+            Skynet Home MQTT Manager
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Eclipse Paho is a set of scalable open-source implementations of open and standard messaging protocols aimed at new, existing, and emerging applications for Machine-to-Machine (M2M) and Internet of Things (IoT)">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link href="./Eclipse Paho - MQTT and MQTT-SN software_files/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="./Eclipse Paho - MQTT and MQTT-SN software_files/style.css" rel="stylesheet" type="text/css"><!-- HTML5 shim, for IE6-8 support of HTML elements -->
+        <link href="./Eclipse Paho - MQTT and MQTT-SN software_files/css" rel="stylesheet" type="text/css">
+        <link href="./Eclipse Paho - MQTT and MQTT-SN software_files/css(1)" rel="stylesheet" type="text/css"><!-- Styles -->
+        <link href="./Eclipse Paho - MQTT and MQTT-SN software_files/font-awesome.css" rel="stylesheet">
+
+    <script async="" src="./Eclipse Paho - MQTT and MQTT-SN software_files/analytics.js"></script><script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-40177335-1', 'eclipse.org');
+      ga('send', 'pageview');
+    </script>
+
+    </head>
+    <body>
+        <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand brand" href="https://www.eclipse.org/paho/"><span><img src="./Eclipse Paho - MQTT and MQTT-SN software_files/eclipse_paho_logo.png"></span></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                          
+                           <!--<li><a href="/paho/examples/examples.php">Examples</a></li>-->
+                        </ul>
+                          <ul class="nav pull-right hidden-xs hidden-sm">
+                              <a href="http://www.tekbunker.com.br" class="headerText"></li><span>TEK BUNKER</span></a>
+                              </li>
+                              <li style="line-height: 55px">
+                                  <div class="googleplus">
+                                      <div class="g-plusone" data-href="http://www.eclipse.org/paho"></div>
+                                  </div>
+                              </li>
+                          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+<div class="container main-content">
+    <div class="row">
+        <!--<div class="offset1 span10">-->
+<div class="content" style="margin-top:30px;">
+  <style type="text/css" scoped="">
+    .special-checkbox {
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+
+  <!-- Local Storage GDPR Warning -->
+  
+  </div>
+  <!-- End of Local Storage GDPR Warning -->
+
+  <!-- Connection panel -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span id="connectionStatus">Connection - Disconnected.</span>
+        </div>
+        <div class="panel-body" id="serverCollapse">
+          <form>
+            <div class="row">
+
+              <div class="col-lg-5">
+                <div class="form-group">
+                  <label for="hostInput">Host</label>
+                  <input type="text" class="form-control" id="hostInput" value="iot.eclipse.org">
+                </div>
+              </div>
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="portInput">Porta</label>
+                  <input type="text" class="form-control" id="portInput" value="443">
+                </div>
+
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label for="clientIdInput">Id do Cliente</label>
+                  <input type="text" class="form-control" id="clientIdInput" value="javascript-client">
+                </div>
+              </div>
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="clientConnectButton"></label>
+                  <a id="clientConnectButton" class="btn btn-default" onclick="connectionToggle();">Conectar</a>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label for="pathInput">Path</label>
+                  <input type="text" class="form-control" id="pathInput" value="/ws">
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label for="userInput">Username</label>
+                  <input type="text" class="form-control" id="userInput">
+                </div>
+              </div>
+
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label for="passInput">Password</label>
+                  <input type="password" class="form-control" id="passInput">
+                </div>
+              </div>
+
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="keepAliveInput">Manter conexão</label>
+                  <input type="text" class="form-control" id="keepAliveInput" value="60">
+                </div>
+              </div>
+
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="timeoutInput">Timeout</label>
+                  <input type="text" class="form-control" id="timeoutInput" value="3">
+                </div>
+              </div>
+
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="tlsInput">TLS</label>
+                  <input type="checkbox" class="special-checkbox" id="tlsInput" value="" checked="">
+                </div>
+              </div>
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="cleanSessionInput">Clean Session</label>
+                  <input type="checkbox" class="special-checkbox" id="cleanSessionInput" value="" checked="">
+                </div>
+
+              </div>
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="automaticReconnectInput">Automatic Reconnect</label>
+                  <input type="checkbox" class="special-checkbox" id="automaticReconnectInput" value="" checked="">
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="form-group">
+                  <label for="lwtInput">Last Will Topic</label>
+                  <input type="text" class="form-control" id="lwtInput">
+                </div>
+              </div>
+
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="lwQosInput">QoS</label>
+                  <select class="form-control" id="lwQosInput">
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-1">
+                <div class="form-group">
+                  <label for="lwRetainInput">Retain</label>
+                  <input type="checkbox" class="special-checkbox" id="lwRetainInput" value="">
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <div class="form-group">
+                  <label for="lwMInput">Last Will Message</label>
+                  <textarea class="form-control" id="lwMInput" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+        </form></div>
+        
+      </div>
+      <!-- End of Connection panel -->
+
+
+      <div class="row ">
+        <!-- Subscription panel -->
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Subscribe
+            </div>
+            <div class="panel-body" id="subscribeCollapse">
+
+              <form class="form-horizontal">
+
+                <div class="form-group">
+                  <label for="subscribeTopicInput" class="col-sm-2 control-label">Topic</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="subscribeTopicInput" value="world" disabled="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="subscribeQosInput" class="col-sm-2 control-label">QoS</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" id="subscribeQosInput" disabled="">
+                      <option>0</option>
+                      <option>1</option>
+                      <option>2</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button id="subscribeButton" type="button" class="btn btn-default" onclick="subscribe();" disabled="">Subscribe</button>
+                    <button id="unsubscribeButton" type="button" class="btn btn-default" onclick="unsubscribe();" disabled="">Unsubscribe</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- End of Subscription panel -->
+        <!-- Publish panel -->
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Publish Message
+            </div>
+            <div class="panel-body" id="publishCollapse">
+              <form>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <div class="form-group">
+                      <label for="publishTopicInput">Topic</label>
+                      <input type="text" class="form-control" id="publishTopicInput" value="world" disabled="">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label for="publishQosInput">QoS</label>
+                      <select class="form-control" id="publishQosInput" disabled="">
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-1">
+                    <div class="form-group">
+                      <label for="publishRetainInput">Retain</label>
+                      <input type="checkbox" class="special-checkbox" id="publishRetainInput" value="" disabled="">
+                    </div>
+                  </div>
+                  <div class="col-lg-1">
+                    <div class="form-group">
+                      <label for="publishButton"></label>
+                      <button id="publishButton" type="button" class="btn btn-default" onclick="publish();" disabled="">Publish
+                    </button></div>
+                  </div>
+
+
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label for="publishMessageInput">Message</label>
+                      <textarea class="form-control" id="publishMessageInput" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- End of Publish panel -->
+      </div>
+      <div class="row">
+
+
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a class="chevron-toggle" data-toggle="collapse" data-target="#subscriptionsCollapse" href="https://www.eclipse.org/paho/clients/js/utility/#collapseOne">
+                Last Messages
+              </a>
+            </div>
+            <div class="panel-body collapse in fixed-height-panel" id="subscriptionsCollapse">
+              <table class="table table-hover table-condensed tableSection" id="lastMessageTable">
+                <thead>
+                  <tr>
+                    <th>Topic</th>
+                    <th>Payload</th>
+                    <th>Time</th>
+                    <th>QoS</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a class="chevron-toggle" data-toggle="collapse" data-target="#historyCollapse" href="https://www.eclipse.org/paho/clients/js/utility/#collapseOne">
+                History
+              </a>
+            </div>
+            <div class="panel-body collapse in fixed-height-panel" id="historyCollapse">
+              <span class="right">
+                <a href="https://www.eclipse.org/paho/clients/js/utility/#" onclick="clearHistory()">Clear History</a>
+              </span>
+              <table class="table table-hover table-condensed  tableSection" id="incomingMessageTable">
+
+                <thead>
+                  <tr>
+                    <th>Topic</th>
+                    <th>Payload</th>
+                    <th>Time</th>
+                    <th>Qos</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a class="chevron-toggle" data-toggle="collapse" data-target="#consoleCollapse" href="https://www.eclipse.org/paho/clients/js/utility/#collapseOne">
+                Console
+              </a>
+            </div>
+            <div class="panel-body collapse in fixed-height-panel-pre" id="consoleCollapse">
+              <pre id="consolePre" class="pre-scrollable">Mon, 23 Sep 2019 00:56:31 GMT - INFO - Starting Eclipse Paho JavaScript Utility.
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Source Paho MQTT Client-->
+<script src="./Eclipse Paho - MQTT and MQTT-SN software_files/paho-mqtt.js"></script>
+
+<!-- Utility Javascript -->
+<script src="./Eclipse Paho - MQTT and MQTT-SN software_files/utility.js"></script>
+        </div>
+    </div>
+<!--</div>-->
+
+
+
+        <!--  Footer-->
+        <footer class="footer">
+        <p class='bunker'>TEK BUNKER © 2019</p>
+        </footer>
+        <!--  Footer end-->
+        <script src="./Eclipse Paho - MQTT and MQTT-SN software_files/jquery.min.js" type="text/javascript"></script>
+        <script src="./Eclipse Paho - MQTT and MQTT-SN software_files/bootstrap.min.js" type="text/javascript"></script>
+    
+
+</body></html>
