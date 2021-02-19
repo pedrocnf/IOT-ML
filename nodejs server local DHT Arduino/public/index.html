@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leitura da porta serial</title>
+        <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+        <link href="metro-icons.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="dados">
+        <p>Temperatura: </p>
+        <span class="mif-air mif-lg fg-blue"></span>
+        <p id="temperatura"></p>
+        <p>Umidade: </p>
+        <span class="mif-water mif-lg fg-blue"></span>
+        <p id="umidade"></p>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:4000'); 
+
+            socket.on('dados', function(valor) { 
+                valores = valor.dados.split('')
+                var umidade = valores.slice(0,4);
+                var temperatura = valores.slice(5,11);
+                console.log(umidade);
+                document.getElementById('temperatura').innerHTML = temperatura.join('')+" ºC"; 
+                document.getElementById('umidade').innerHTML = umidade.join('')+" % HrAr"; 
+            });
+        </script>
+        <style>
+            #dados {
+                padding: 30px;
+                font-size: 20px;
+                border-style: groove;
+                border-width: 2px;
+                bor
+
+            }
+        </style>
+    </body>
+    
+</html>
